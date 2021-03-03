@@ -26,7 +26,7 @@ class Wirecard(object):
     def get(self, url):
         return requests.get(url, headers=self.auth_header())
 
-    def post(self, url, data):
+    def post(self, url, data=None):
         return requests.post(url, json=data, headers=self.auth_header())
 
     def delete(self, url):
@@ -71,7 +71,20 @@ class WirecardMarketPlace(Wirecard):
 
     def __init__(self, access_token, sandbox=False):
         super().__init__(None, None, sandbox)
+
         self.access_token = access_token
+        self.TOKEN_URL = get_urls(sandbox)['TOKEN_URL']
 
     def auth_header(self):
         return {'Authorization': 'Bearer '+self.access_token}
+
+    def get_oauth_token(self, client_id, client_secret, code=None, redirect_uri=None, grant_type='authorization_code'):
+        parameters = '?client_id={}&client_secret={}&grant_type={}'.format(client_id, client_secret, grant_type)
+
+        if code:
+            parameters += '&code={}'.format(code)
+        
+        if redirect_uri:
+            parameters += '&redirect_uri={}'.format(redirect_uri)
+
+        return self.post(self.TOKEN_URL+parameters).json()

@@ -6,7 +6,7 @@ install_requires = []
 
 setup(
     name="wirepy",
-    version="0.0.1",
+    version="0.0.2",
     author="Pedro Ivo",
     author_email="pedro.its@gmail.com",
     url="https://github.com/pedroits/wirepy",
