@@ -1,6 +1,6 @@
 import simplejson as json
 from enum import Enum
-from datetime import datetime
+from datetime import date, datetime
 
 from ..utils import snake_to_camel_case
 from ..settings import FundingInstrumentMethod
@@ -23,7 +23,7 @@ class WirecardGeneric(object):
                 new_dict[key] = self.transform_dict(value)
             elif isinstance(value, list):
                 new_dict[key] = [v.to_dict() for v in value]
-            elif isinstance(value, datetime):
+            elif isinstance(value, date) or isinstance(value, datetime):
                 new_dict[key] = value.strftime('%Y-%m-%d')
             elif isinstance(value, Enum):
                 new_dict[key] = value.value
